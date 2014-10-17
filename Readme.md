@@ -1,18 +1,26 @@
-Problem: Find arbitrage loops in a currency exchange rate matrix.
+#Problem
 
-Background:
-In this representation of cryptocurrency exchange, the rates between currencies are directional. Unlike the conventional currency market, the rate of exchange for US dollars differs when transfering to another currency versus when converting it back again. The imbalance created by this directionality creates arbitrage opportunities.
+Find arbitrage loops in a currency exchange rate matrix.
 
-To recognize profitable arbitrage opportunities from a given exchange rate environment, we need to test all possible series of exchanges and see how much money we are left with at the end of the series. To determine what those pathways are, I chose to write an R script to find the arbitrage loops and calculate the resulting gain or loss. 
+#Background
+
+In this hypothetical representation of cryptocurrency exchange, the rates between currencies are directional. Unlike the conventional currency market, the rate of exchange for US dollars differs when transferring to another currency versus when converting it back again. The imbalance created by this directionality creates arbitrage opportunities.
+
+To recognize profitable arbitrage opportunities from a given exchange rate environment, we need to test all possible series of exchanges and see how much money we are left with at the end of the series. To determine what those pathways are, this R script finds the arbitrage loops and calculates the resulting gain or loss. 
 
 ![alt tag](https://raw.githubusercontent.com/ajkou/Bitcoin-Arbitrage/master/pathway_chart.png)
 
-A basic characteristic of an arbitrage opportunity in this example is that it starts with US dollars and ends with US dollars. The function 'spit' is a recursive function that seeks out all possible pathways from USD to other currencies. When the traveral encounters USD again, this serves as the terminating condition for the recursion, closing the loop and identifying that path as an arbitrage loop. The resulting opportunity is then determined by taking the product of the exchange rates. This path searching algorithm probably performs at O(n^n).
+A basic characteristic of an arbitrage loop is that it starts from US dollars and ends by exchanging back to US dollars. 
+
+The recursive function 'spit' seeks out all possible pathways from USD through other currencies. When the traversal encounters USD again, this serves as the terminating condition for the recursion, ending the path and identifying that path as an arbitrage loop. The resulting opportunity is then determined by taking the product of the exchange rates. This path searching algorithm probably performs at O(n^n).
+
+#Solution
 
 The following result was calculated from the exchange rate API (http://fx.priceonomics.com/v1/rates/), which produced a range [0.80, 1.20] with a maximum gain of 20%.
 
 
 > sort(answer, decreasing=TRUE)
+
                 USD_EUR EUR_USD 
                       1.2028279 
 USD_EUR EUR_BTC BTC_EUR EUR_USD 
@@ -55,4 +63,6 @@ USD_BTC BTC_JPY JPY_BTC BTC_USD
                       0.8361629 
 USD_JPY JPY_BTC BTC_JPY JPY_USD 
                       0.8026167 
+
+
 
