@@ -56,10 +56,12 @@ sort(answer, decreasing=TRUE)
 
 
 
-## Diagram of 'spit' function traversals
+## Diagram of 'spit' function traversals; example for 4 currencies including USD
 
 library(diagram)
 par( mfrow = c(1, 1))
+
+#Custom plot representation parameters
 names <- c(rep(c("USD", "JPY", "EUR", "BTC"),5), rep("...",2), rep("", (4*2)-2))
 M <- matrix(nrow = length(names), ncol = length(names), byrow = TRUE, data = 0)
 M[2:4,1] <- ""
@@ -68,7 +70,6 @@ M[9:12,3] <- ""
 M[13:16,4] <- ""
 M[17:20,7] <- ""
 Col <- rep("white", length(names))
-Col[] <- rep("white", length(names))
 Col[names=='USD'] <- "red"
 Col[1] <- "green"
 Col[c(6,11,16,19)] <- "grey"
@@ -77,11 +78,13 @@ Box[21:length(names)] <- 1
 Box_size <- rep(0.03, length(names))
 Box_size[23:length(names)] <- 0
 
+#Create Plot
 plotmat(M, pos = c(1, 3, 4*3, 4*3), name = names, lwd = 1,
 box.lwd = Box, cex.txt = 0.4, box.size = Box_size,
 box.type = "square", box.prop = 0.5,
 shadow.size=0.005, box.col= Col)
 
+#Insert Legend
 legend("topright", inset=0, title="Pathway Building Events",
   	c("Start","Stop", "Ignore"), fill=c("green","red", "grey"))
 
